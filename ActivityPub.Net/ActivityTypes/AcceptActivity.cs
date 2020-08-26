@@ -23,10 +23,6 @@ namespace ActivityPub.Net.ActivityTypes
         }
     }
 
-    public class CreateActivity : ActivityStream
-    {
-    }
-
     public class DeleteActivity : ActivityStream
     {
     }

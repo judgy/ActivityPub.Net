@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace ActivityPub.Net.CoreTypes
+namespace ActivityPub.Net.ObjectAndLinkTypes
 {
-    public class Link : ActivityStreamsObject
+    public class Note
     {
 
-        public Link()
+        public Note()
         {
             Context = "https://www.w3.org/ns/activitystreams";
             Type = "Link";
-
+            To= new List<string>();
         }
 
         [JsonProperty("@context")]

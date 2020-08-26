@@ -12,11 +12,11 @@ namespace ActivityPub.Net
         public TestBuilder()
         {
             //ActivityBuilderDirector.NewActivity
-            //    .Actor().Person().Inbox("fasd").Followers("asdfasd").End()
+            //    .Actor().FluentPerson().Inbox("fasd").Followers("asdfasd").End()
             //    .Id("sadfsad");
 
             //    ;
-            //Person person = PersonBuilder.Person.
+            //FluentPerson person = PersonBuilder.FluentPerson.
             //    Name("sdfad").Followers("sadf").Inbox("sdfasdf")
 
         }

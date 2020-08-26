@@ -46,8 +46,21 @@ namespace ActivityPub.Net.Unittest
                         .Followers("https://social.example/alyssa/followers/")
                         .Following("https://social.example/alyssa/following/")
                         .Liked("https://social.example/alyssa/liked/")
-                        .End()
+                        .EndPerson()
                 .Build();
+
+            //var example1Person = ActivityBuilderDirector.NewActivity
+            //    .Actor().Person().Id("https://social.example/alyssa/")
+            //    .Name("Alyssa P. Hacker")
+            //    .Id("https://social.example/alyssa/")
+            //    .PreferredUsername("alyssa")
+            //    .Summary("Lisp enthusiast hailing from MIT")
+            //    .Inbox("https://social.example/alyssa/inbox/")
+            //    .OutBox("https://social.example/alyssa/outbox/")
+            //    .Followers("https://social.example/alyssa/followers/")
+            //    .Following("https://social.example/alyssa/following/")
+            //    .Liked("https://social.example/alyssa/liked/")
+            //    .GetPerson();
 
             //Assert
             Dictionary<string, string> example1ResultJson = JsonConvert.DeserializeObject<Dictionary<string, string>>(example1Result);
@@ -83,11 +96,11 @@ namespace ActivityPub.Net.Unittest
             var exampleCompareJson = JsonConvert.DeserializeObject<Note>(exampleCompare);
 
             //Act
-            var example1Result = ActivityBuilderDirector.NewActivity
-                .Actor().Note().To("https://chatty.example/ben/")
+            var example1Result = ActivityBuilderDirector.NewActivity.ObjectElement()
+                        .Note().To("https://chatty.example/ben/")
                         .AttributedTo("https://social.example/alyssa/")
                         .Content("Say, did you finish reading that book I lent you?")
-                        .End()
+                        .EndNote()
                 .Build();
 
             //Assert
@@ -115,4 +128,7 @@ namespace ActivityPub.Net.Unittest
         [JsonPropertyName("to")]
         public IList<string> To { get; set; }
     }
+
+
+
 }

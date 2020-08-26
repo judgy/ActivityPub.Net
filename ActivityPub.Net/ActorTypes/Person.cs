@@ -1,96 +1,36 @@
-﻿using System.Text;
-using ActivityPub.Net.CoreTypes;
+﻿using Newtonsoft.Json;
 
 namespace ActivityPub.Net.ActorTypes
 {
-    public class Person : ActivityStreamsObject
+    public class Person
     {
-        private readonly ActivityStream _parent;
-        private readonly StringBuilder _localActivityBuilder;
-
-        public Person(ActivityStream parent) : base(parent)
+        public Person()
         {
-            _parent = parent;
-            _localActivityBuilder = new StringBuilder();
-            _localActivityBuilder.Append("\"type\": \"Person\"");
+            Context = "https://www.w3.org/ns/activitystreams";
+            Type = "Person";
         }
-
-        public new Person Id(string id)
-        {
-            _localActivityBuilder.AppendLine(",");
-            _localActivityBuilder.Append($"\"id\": \"{id}\"");
-            return this;
-        }
-
-        //public Person Type(ActorType type)
-        //{
-        //    return this;
-        //}
-
-        public Person Following(string following)
-        {
-            _localActivityBuilder.AppendLine(",");
-            _localActivityBuilder.Append($"\"following\": \"{following}\"");
-            return this;
-        }
-
-        public Person Followers(string followers)
-        {
-            _localActivityBuilder.AppendLine(",");
-            _localActivityBuilder.Append($"\"followers\": \"{followers}\"");
-            return this;
-        }
-
-        public Person Inbox(string inbox)
-        {
-            _localActivityBuilder.AppendLine(",");
-            _localActivityBuilder.Append($"\"inbox\": \"{inbox}\"");
-            return this;
-        }
-
-        public Person OutBox(string outbox)
-        {
-            _localActivityBuilder.AppendLine(",");
-            _localActivityBuilder.Append($"\"outbox\": \"{outbox}\"");
-            return this;
-        }
-
-        public Person PreferredUsername(string preferredUsername)
-        {
-            _localActivityBuilder.AppendLine(",");
-            _localActivityBuilder.Append($"\"preferredUsername\": \"{preferredUsername}\"");
-            return this;
-        }
-
-        public new Person Name(string name)
-        {
-            _localActivityBuilder.AppendLine(",");
-            _localActivityBuilder.Append($"\"name\": \"{name}\"");
-            return this;
-        }
-
-        public new Person Summary(string summary)
-        {
-            _localActivityBuilder.AppendLine(",");
-            _localActivityBuilder.Append($"\"summary\": \"{summary}\"");
-            return this;
-        }
-
-        public Person Liked(string liked)
-        {
-            _localActivityBuilder.AppendLine(",");
-            _localActivityBuilder.Append($"\"liked\": \"{liked}\"");
-            return this;
-        }
-
-        public new Person End()
-        {
-            ActictityStreamBuiler.Append(_localActivityBuilder);
-            return this;
-        }
-
-
-        //Icon
+        [JsonProperty("@context")]
+        public string Context { get; set; }
+        [JsonProperty("id")]
+        public string Id { get; set; }
+        [JsonProperty("type")]
+        public string Type { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
+        [JsonProperty("preferredUsername")]
+        public string PreferredUsername { get; set; }
+        [JsonProperty("summary")]
+        public string Summary { get; set; }
+        [JsonProperty("inbox")]
+        public string Inbox { get; set; }
+        [JsonProperty("outbox")]
+        public string Outbox { get; set; }
+        [JsonProperty("followers")]
+        public string Followers { get; set; }
+        [JsonProperty("following")]
+        public string Following { get; set; }
+        [JsonProperty("liked")]
+        public string Liked { get; set; }
 
     }
 }

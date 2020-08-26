@@ -7,26 +7,24 @@ namespace ActivityPub.Net.ActorTypes
     public class Actor : ActivityStreamsObject
     {
         private readonly ActivityStream _parent;
+        private FluentPerson _fluentPerson;
 
         public Actor(ActivityStream parent) : base(parent)
         {
             _parent = parent;
         }
-        public Person Person()
+        public FluentPerson Person()
         {
-            return new Person(_parent);
+            return _fluentPerson ?? (_fluentPerson = new FluentPerson(_parent));
         }
 
-        public Note Note()
-        {
-            return new Note(_parent);
-        }
 
-        public Group Group()
+        internal override string GetBuild()
         {
-            return new Group(_parent);
+            var resultString = "";
+            if (_fluentPerson!=null) resultString = _fluentPerson.GetBuild();
+            return resultString;
         }
-
 
     }
 }

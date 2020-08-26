@@ -11,9 +11,9 @@ namespace ActivityPub.Net
         public static ActivityBuilderDirector NewActivity => new ActivityBuilderDirector();
     }
 
-    //public class PersonBuilder : Person
+    //public class PersonBuilder : FluentPerson
     //{
-    //    public static PersonBuilder Person => new PersonBuilder();
+    //    public static PersonBuilder FluentPerson => new PersonBuilder();
 
     //    public PersonBuilder(ActivityStream parent) : base(parent)
     //    {

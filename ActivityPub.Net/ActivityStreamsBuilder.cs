@@ -16,12 +16,13 @@ namespace ActivityPub.Net
             ActictityStreamBuiler.AppendLine("\"@context\": \"https://www.w3.org/ns/activitystreams\",");
         }
 
-        public string Build()
+        internal virtual string GetBuild()
         {
-            ActictityStreamBuiler.Insert(0, "{");
-            ActictityStreamBuiler.Append("}");
-            return ActictityStreamBuiler.ToString();
-            
+            return string.Empty;
+            //    ActictityStreamBuiler.Insert(0, "{");
+            //    ActictityStreamBuiler.Append("}");
+            //    return ActictityStreamBuiler.ToString();
+
         }
     }
 }

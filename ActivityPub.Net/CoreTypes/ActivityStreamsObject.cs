@@ -35,12 +35,14 @@ namespace ActivityPub.Net.CoreTypes
             return new Attachment(_activityStream);
         }
 
-        public virtual ActivityStream End()
+        //public virtual ActivityStream End()
+        //{
+        //    return _activityStream;
+        //}
+
+        internal override string GetBuild()
         {
-            return _activityStream;
+            return base.GetBuild();
         }
-
-
-
     }
 }

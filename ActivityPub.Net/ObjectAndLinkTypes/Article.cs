@@ -1,11 +1,29 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using ActivityPub.Net.CoreTypes;
 using ActivityPub.Net.Enums;
 
 namespace ActivityPub.Net.ObjectAndLinkTypes
 {
+    public class FluentDocument : ActivityStreamsObject
+    {
+        private readonly ActivityStream _parent;
+
+        public FluentDocument(ActivityStream parent)
+        {
+            _parent = parent;
+        }
+    }
+
+    public class FluentArticle : ActivityStreamsObject
+    {
+        private readonly ActivityStream _parent;
+
+        public FluentArticle(ActivityStream parent)
+        {
+            _parent = parent;
+        }
+    }
+
     public class Article : ActivityStreamsObject
     {
         public Article(ActivityStream activityStream) : base(activityStream)
@@ -41,56 +59,7 @@ namespace ActivityPub.Net.ObjectAndLinkTypes
 
         }
     }
-    public class Note : ActivityStreamsObject
-    {
-        private readonly ActivityStream _activityStream;
-        private readonly StringBuilder _localActivityBuilder;
-        protected List<string> _toList;
 
-        public Note(ActivityStream activityStream) : base(activityStream)
-        {
-            _activityStream = activityStream;
-            _localActivityBuilder = new StringBuilder();
-            _toList= new List<string>();
-            
-            _localActivityBuilder.Append("\"type\": \"Note\"");
-        }
-
-        public Note To(string to)
-        {
-            _toList.Add(to);
-            return this;
-        }
-
-        public Note AttributedTo(string attributedTo)
-        {
-            _localActivityBuilder.AppendLine(",");
-            _localActivityBuilder.Append($"\"attributedTo\": \"{attributedTo}\"");
-            return this;
-        }
-
-        public Note Content(string content)
-        {
-            _localActivityBuilder.AppendLine(",");
-            _localActivityBuilder.Append($"\"content\": \"{content}\"");
-            return this;
-        }
-
-        public new Note End()
-        {
-            if (_toList.Count > 0)
-            {
-                var toListJoin = string.Join("\",\"", _toList);
-                _localActivityBuilder.AppendLine(",");
-                _localActivityBuilder.Append($"\"to\": [\"{toListJoin}\"]");
-            }
-            ActictityStreamBuiler.Append(_localActivityBuilder);
-            return this;
-        }
-
-
-
-    }
     public class Page : ActivityStreamsObject
     {
         public Page(ActivityStream activityStream) : base(activityStream)
@@ -133,11 +102,11 @@ namespace ActivityPub.Net.ObjectAndLinkTypes
 
         }
     }
-    public class Mention : Link
-    {
-        public Mention(ActivityStream activityStream) : base(activityStream)
-        {
+    //public class Mention : Link
+    //{
+    //    public Mention(ActivityStream activityStream) : base(activityStream)
+    //    {
 
-        }
-    }
+    //    }
+    //}
 }
