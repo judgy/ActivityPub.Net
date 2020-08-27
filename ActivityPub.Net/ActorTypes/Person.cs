@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using ActivityPub.Net.ObjectAndLinkTypes;
+using Newtonsoft.Json;
 
 namespace ActivityPub.Net.ActorTypes
 {
-    public class Person
+    public class Person : SerializableObject
     {
         public Person()
         {

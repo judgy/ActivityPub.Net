@@ -3,13 +3,13 @@ using Newtonsoft.Json;
 
 namespace ActivityPub.Net.ObjectAndLinkTypes
 {
-    public class Note
+    public class Note : SerializableObject
     {
 
         public Note()
         {
             Context = "https://www.w3.org/ns/activitystreams";
-            Type = "Link";
+            Type = "Note";
             To= new List<string>();
         }
 
@@ -25,5 +25,6 @@ namespace ActivityPub.Net.ObjectAndLinkTypes
         public string AttributedTo { get; set; }
         [JsonProperty("content")]
         public string Content { get; set; }
+
     }
 }

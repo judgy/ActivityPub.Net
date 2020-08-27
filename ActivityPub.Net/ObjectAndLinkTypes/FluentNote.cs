@@ -15,6 +15,12 @@ namespace ActivityPub.Net.ObjectAndLinkTypes
             _note= new Note();
         }
 
+        public new FluentNote Id(string id)
+        {
+            _note.Id =id;
+            return this;
+        }
+
         public FluentNote To(string to)
         {
             _note.To.Add(to);
@@ -47,5 +53,11 @@ namespace ActivityPub.Net.ObjectAndLinkTypes
         {
             return JsonConvert.SerializeObject(_note);
         }
+
+        internal string BuildObject(Note note)
+        {
+            return JsonConvert.SerializeObject(note);
+        }
+
     }
 }

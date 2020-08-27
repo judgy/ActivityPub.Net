@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using ActivityPub.Net.ActivityTypes;
 using ActivityPub.Net.ActorTypes;
 using ActivityPub.Net.ObjectAndLinkTypes;
 
@@ -8,12 +9,7 @@ namespace ActivityPub.Net.CoreTypes
     {
         private Actor _actor;
         private ObjectElement _objectElement;
-
-        public ActivityStream() 
-        {
-            
-            _objectElement = new ObjectElement(this);
-        }
+        private Activity _activity;
 
         public Actor Actor()
         {
@@ -27,6 +23,12 @@ namespace ActivityPub.Net.CoreTypes
             return _objectElement;
         }
 
+        public Activity Activity()
+        {
+            if (_activity == null) _activity = new Activity(this);
+            return _activity;
+        }
+
         public string Build()
         {
             var buildString = string.Empty;
@@ -37,6 +39,10 @@ namespace ActivityPub.Net.CoreTypes
             else if (_objectElement != null)
             {
                 buildString = _objectElement.GetBuild();
+            }
+            else if (_activity != null)
+            {
+                buildString = _activity.GetBuild();
             }
             return buildString;
         }
