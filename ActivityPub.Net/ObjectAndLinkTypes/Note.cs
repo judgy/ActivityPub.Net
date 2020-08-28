@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
-using ActivityPub.Net.ActorTypes;
 using ActivityPub.Net.CoreTypes;
 using Newtonsoft.Json;
 
@@ -8,12 +7,12 @@ namespace ActivityPub.Net.ObjectAndLinkTypes
 {
     public class Note
     {
-        private ActivityStream _parent;
         private FluentNote _fluentNote;
 
-        internal Note()
+        internal Note(ActivityStream activityStream)
         {
-            To= new List<string>();
+            _fluentNote = new FluentNote(activityStream, this);
+            To = new List<string>();
         }
 
         [JsonProperty("@context")]
@@ -29,10 +28,8 @@ namespace ActivityPub.Net.ObjectAndLinkTypes
         [JsonProperty("content")]
         public string Content { get; set; }
 
-        internal FluentNote InitFluent(ActivityStream parent)
+        internal FluentNote FluentNote()
         {
-            _parent = parent;
-            _fluentNote = new FluentNote(parent, this);
             return _fluentNote;
         }
 

@@ -36,7 +36,6 @@ namespace ActivityPub.Net.ActivityTypes
         public FluentCreateActivity To(string to)
         {
             if (_createActivity.To.FirstOrDefault(p => p == to) == null) _createActivity.To.Add(to);
-            _createActivity.To.Add(to);
             return this;
         }
 
@@ -49,18 +48,18 @@ namespace ActivityPub.Net.ActivityTypes
             return this;
         }
 
-        public FluentCreateActivity ActivityObject2(JObject objectActivity)
+        public FluentCreateActivity ActivityObject(JObject objectActivity)
         {
-            JObject jsonObject = objectActivity as JObject;
-            if (jsonObject != null && jsonObject.ContainsKey("@context")) _jsonObject.Remove("@context");
-            _createActivity.Object = jsonObject;
+            var localobjectActivity = objectActivity;
+            if (localobjectActivity != null && localobjectActivity.ContainsKey("@context")) localobjectActivity.Remove("@context");
+            _createActivity.Object = localobjectActivity;
             return this;
         }
 
-        public FluentCreateActivity ActivityObject3(string objectActivity)
-        {
-            return this;
-        }
+        //public FluentCreateActivity ActivityObject3(string objectActivity)
+        //{
+        //    return this;
+        //}
 
         //public FluentCreateActivity ActivityObject()
         //{

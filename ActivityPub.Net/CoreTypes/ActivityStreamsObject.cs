@@ -1,4 +1,6 @@
 ﻿using ActivityPub.Net.ActivityStreamsObjects;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ActivityPub.Net.CoreTypes
 {
@@ -6,13 +8,14 @@ namespace ActivityPub.Net.CoreTypes
     {
         private readonly ActivityStream _activityStream;
 
-        public ActivityStreamsObject()
-        {
-            
-        }
+        internal JObject JsonObject { get; set; }
+        internal ActivityStream ActivityStream { get; set; }
+
         protected ActivityStreamsObject(ActivityStream activityStream)
         {
+            JsonObject = new JObject();
             _activityStream = activityStream;
+            ActivityStream = activityStream;
         }
 
         //public ActivityStreamsObject Id(string id)
@@ -40,9 +43,15 @@ namespace ActivityPub.Net.CoreTypes
         //    return _activityStream;
         //}
 
-        internal override string GetJsonBuild()
+        internal virtual string GetJsonBuild()
         {
-            return base.GetJsonBuild();
+            return JsonConvert.SerializeObject(JsonObject);
         }
+
+        public virtual dynamic GetObject()
+        {
+            return JsonObject;
+        }
+
     }
 }

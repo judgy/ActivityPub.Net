@@ -6,7 +6,7 @@ using ActivityPub.Net.ObjectAndLinkTypes;
 
 namespace ActivityPub.Net.CoreTypes
 {
-    public class ActivityStream : ActivityStreamsObject
+    public class ActivityStream 
     {
         private Actor _actor;
         private ObjectElement _objectElement;
@@ -69,6 +69,7 @@ namespace ActivityPub.Net.CoreTypes
 
             return new ExpandoObject();
         }
+
     }
 
     //public class ActorStream : ActivityStreamsBuilder

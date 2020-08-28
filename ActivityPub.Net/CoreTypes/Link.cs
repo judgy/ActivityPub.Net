@@ -5,10 +5,10 @@ using Newtonsoft.Json;
 
 namespace ActivityPub.Net.CoreTypes
 {
-    public class Link : ActivityStreamsObject
+    public class Link 
     {
 
-        public Link()
+        internal Link(ActivityStream activityStream)
         {
             Context = "https://www.w3.org/ns/activitystreams";
             Type = "Link";
@@ -27,5 +27,7 @@ namespace ActivityPub.Net.CoreTypes
         public string AttributedTo { get; set; }
         [JsonProperty("content")]
         public string Content { get; set; }
+        [JsonProperty("actor")]
+        public string Actor { get; set; }
     }
 }

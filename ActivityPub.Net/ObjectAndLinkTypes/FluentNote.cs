@@ -1,31 +1,26 @@
 ﻿using System.Linq;
 using ActivityPub.Net.CoreTypes;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace ActivityPub.Net.ObjectAndLinkTypes
 {
     public class FluentNote : ActivityStreamsObject
     {
-        private readonly ActivityStream _activityStream;
         private readonly Note _note;
-
-        private readonly JObject _noteObject = new JObject();
 
         public FluentNote(ActivityStream activityStream, Note note) : base(activityStream)
         {
-            _activityStream = activityStream;
             _note = note;
-            _noteObject.Add("@context", "https://www.w3.org/ns/activitystreams");
+            JsonObject.Add("@context", "https://www.w3.org/ns/activitystreams");
             _note.Context = "https://www.w3.org/ns/activitystreams";
-            _noteObject.Add("type", "Note");
+            JsonObject.Add("type", "Note");
             _note.Type = "Note";
         }
 
-        public new FluentNote Id(string id)
+        public FluentNote Id(string id)
         {
-            if (_noteObject.ContainsKey("id")) _noteObject.Remove("id");
-            _noteObject.Add("id", id);
+            if (JsonObject.ContainsKey("id")) JsonObject.Remove("id");
+            JsonObject.Add("id", id);
             _note.Id = id;
             return this;
         }
@@ -38,8 +33,8 @@ namespace ActivityPub.Net.ObjectAndLinkTypes
 
         public FluentNote AttributedTo(string attributedTo)
         {
-            if (_noteObject.ContainsKey("attributedTo")) _noteObject.Remove("attributedTo");
-            _noteObject.Add("attributedTo", attributedTo);
+            if (JsonObject.ContainsKey("attributedTo")) JsonObject.Remove("attributedTo");
+            JsonObject.Add("attributedTo", attributedTo);
 
             _note.AttributedTo = attributedTo;
             return this;
@@ -47,50 +42,54 @@ namespace ActivityPub.Net.ObjectAndLinkTypes
 
         public FluentNote Content(string content)
         {
-            if (_noteObject.ContainsKey("content")) _noteObject.Remove("content");
-            _noteObject.Add("content", content);
+            if (JsonObject.ContainsKey("content")) JsonObject.Remove("content");
+            JsonObject.Add("content", content);
 
             _note.Content = content;
             return this;
         }
 
-        public ActivityStream EndNote()
+        public FluentNote InReplyTo(string inReplyTo)
         {
-            return _activityStream;
+            if (JsonObject.ContainsKey("inReplyTo")) JsonObject.Remove("inReplyTo");
+            JsonObject.Add("inReplyTo", inReplyTo);
+
+            _note.InReplyTo = inReplyTo;
+            return this;
         }
 
-        public Note GetNote()
+        public ActivityStream EndNote()
         {
-            return _note;
+            return ActivityStream;
         }
 
         internal override string GetJsonBuild()
         {
-            CreateObject();
-            return JsonConvert.SerializeObject(_noteObject);
+            PrepareJsonObject();
+            return base.GetJsonBuild();
         }
 
-        public dynamic GetObject()
+        public override dynamic GetObject()
         {
-            CreateObject();
-            return _noteObject;
+            PrepareJsonObject();
+            return base.GetObject();
         }
 
-        private void CreateObject()
+        private void PrepareJsonObject()
         {
             if (_note.To.Any())
             {
-                if (_noteObject.ContainsKey("to")) _noteObject.Remove("to");
+                if (JsonObject.ContainsKey("to")) JsonObject.Remove("to");
                 var toArray = new JArray();
                 foreach (var toItem in _note.To) toArray.Add(toItem);
-                _noteObject.Add("to", toArray);
+                JsonObject.Add("to", toArray);
             }
         }
 
 
-        internal string BuildObject(Note note)
-        {
-            return JsonConvert.SerializeObject(note);
-        }
+        //internal string BuildObject(Note note)
+        //{
+        //    return JsonConvert.SerializeObject(note);
+        //}
     }
 }

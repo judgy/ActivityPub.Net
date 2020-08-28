@@ -6,98 +6,122 @@ namespace ActivityPub.Net.ObjectAndLinkTypes
 {
     public class FluentDocument : ActivityStreamsObject
     {
-        private readonly ActivityStream _parent;
+        private readonly Document _document;
 
-        public FluentDocument(ActivityStream parent)
+        public FluentDocument(ActivityStream activityStream, Document document) : base(activityStream)
         {
-            _parent = parent;
+            _document = document;
         }
     }
 
     public class FluentArticle : ActivityStreamsObject
     {
-        private readonly ActivityStream _parent;
+        private readonly Article _document;
 
-        public FluentArticle(ActivityStream parent)
+        public FluentArticle(ActivityStream activityStream, Article document) : base(activityStream)
         {
-            _parent = parent;
+            _document = document;
         }
     }
 
-    public class Article : ActivityStreamsObject
+    public class Article 
     {
-        public Article(ActivityStream activityStream) : base(activityStream)
+        private FluentArticle _fluentArticle;
+        public Article(ActivityStream activityStream) 
         {
-            
+            _fluentArticle = new FluentArticle(activityStream, this);
         }
-    }
-    public class Audio: ActivityStreamsObject
-    {
-        public Audio(ActivityStream activityStream) : base(activityStream)
-        {
 
-        }
-    }
-    public class Document : ActivityStreamsObject
-    {
-        public Document(ActivityStream activityStream) : base(activityStream)
+        internal FluentArticle FluentArticle()
         {
-
+            return _fluentArticle;
         }
-    }
-    public class Event : ActivityStreamsObject
-    {
-        public Event(ActivityStream activityStream) : base(activityStream)
+
+        public string GetJsonBuild()
         {
-
+            if (_fluentArticle != null) return _fluentArticle.GetJsonBuild();
+            return "{}";
         }
+
     }
-    public class Image : ActivityStreamsObject
+    public class Audio
     {
-        public Image(ActivityStream activityStream) : base(activityStream)
+        public Audio(ActivityStream activityStream)
         {
 
         }
     }
-
-    public class Page : ActivityStreamsObject
+    public class Document 
     {
-        public Page(ActivityStream activityStream) : base(activityStream)
+        private FluentDocument _fluentDocument;
+        public Document(ActivityStream activityStream)
+        {
+            _fluentDocument= new FluentDocument(activityStream, this);
+        }
+        internal FluentDocument FluentDocument()
+        {
+            return _fluentDocument;
+        }
+
+        public string GetJsonBuild()
+        {
+            if (_fluentDocument != null) return _fluentDocument.GetJsonBuild();
+            return "{}";
+        }
+    }
+    public class Event
+    {
+        public Event(ActivityStream activityStream) 
         {
 
         }
     }
-    public class Place : ActivityStreamsObject
+    public class Image 
     {
-        public Place(ActivityStream activityStream) : base(activityStream)
+        public Image(ActivityStream activityStream)
         {
 
         }
     }
-    public class Profile : ActivityStreamsObject
+
+    public class Page 
     {
-        public Profile(ActivityStream activityStream) : base(activityStream)
+        public Page(ActivityStream activityStream) 
         {
 
         }
     }
-    public class Releationship : ActivityStreamsObject
+    public class Place 
     {
-        public Releationship(ActivityStream activityStream) : base(activityStream)
+        public Place(ActivityStream activityStream) 
         {
 
         }
     }
-    public class Tombstone : ActivityStreamsObject
+    public class Profile 
     {
-        public Tombstone(ActivityStream activityStream) : base(activityStream)
+        public Profile(ActivityStream activityStream) 
         {
 
         }
     }
-    public class Video : ActivityStreamsObject
+    public class Releationship 
     {
-        public Video(ActivityStream activityStream) : base(activityStream)
+        public Releationship(ActivityStream activityStream) 
+        {
+
+        }
+    }
+    public class Tombstone 
+    {
+        public Tombstone(ActivityStream activityStream) 
+        {
+
+        }
+    }
+    public class Video
+    {
+        public Video(ActivityStream activityStream) 
         {
 
         }

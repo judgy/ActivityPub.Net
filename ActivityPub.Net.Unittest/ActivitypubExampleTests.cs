@@ -172,7 +172,7 @@ namespace ActivityPub.Net.Unittest
                 .To("https://chatty.example/ben/")
                 .Actor("https://social.example/alyssa/")
                 .Id("https://social.example/alyssa/posts/a29a6843-9feb-4c74-a7f7-081b9c9201d3")
-                .ActivityObject2((JObject)note)
+                .ActivityObject((JObject)note)
                 .EndCreateActivity()
                 .Build();
 

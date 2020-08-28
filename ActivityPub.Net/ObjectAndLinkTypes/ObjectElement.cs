@@ -1,44 +1,40 @@
 ﻿using System;
 using System.Dynamic;
 using ActivityPub.Net.CoreTypes;
-using Newtonsoft.Json;
+
 
 namespace ActivityPub.Net.ObjectAndLinkTypes
 {
     public class ObjectElement : ActivityStreamsObject
     {
-        private readonly ActivityStream _parent;
-        private FluentNote _fluentNote;
         private Note _note;
-        private FluentArticle _fluentArticle;
-        private FluentDocument _fluentDocument;
+        private Article _article;
+        private Document _document;
 
         public ObjectElement(ActivityStream parent) : base(parent)
         {
-            _parent = parent;
         }
 
         public FluentNote Note()
         {
-            if (_note == null)
-            {
-                _note = new Note();
-            }
-            return _note.InitFluent(_parent);
+            if (_note == null) _note = new Note(ActivityStream);
+            return _note.FluentNote();
         }
 
         public FluentArticle Article()
         {
-            return _fluentArticle ?? (_fluentArticle = new FluentArticle(_parent));
+            if (_article == null) _article = new Article(ActivityStream);
+
+            return _article.FluentArticle();
         }
 
         public FluentDocument Document()
         {
-            if (_fluentDocument==null) _fluentDocument = new FluentDocument(_parent);
-            return _fluentDocument;
+            if (_document == null) _document = new Document(ActivityStream);
+            return _document.FluentDocument();
         }
 
-        public dynamic GetObject()
+        public override dynamic GetObject()
         {
             if (_note != null) return _note.GetObject();
             //if (_fluentArticle != null) return _fluentArticle.GetObject();
@@ -49,8 +45,8 @@ namespace ActivityPub.Net.ObjectAndLinkTypes
         internal override string GetJsonBuild()
         {
             if (_note != null) return _note.GetJsonBuild();
-            if (_fluentArticle != null) return _fluentArticle.GetJsonBuild();
-            if (_fluentDocument != null) return _fluentDocument.GetJsonBuild();
+            if (_article != null) return _article.GetJsonBuild();
+            if (_document != null) return _document.GetJsonBuild();
             return String.Empty;
         }
 
