@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Dynamic;
 using ActivityPub.Net.CoreTypes;
 using Newtonsoft.Json;
 
@@ -8,6 +9,7 @@ namespace ActivityPub.Net.ObjectAndLinkTypes
     {
         private readonly ActivityStream _parent;
         private FluentNote _fluentNote;
+        private Note _note;
         private FluentArticle _fluentArticle;
         private FluentDocument _fluentDocument;
 
@@ -18,7 +20,11 @@ namespace ActivityPub.Net.ObjectAndLinkTypes
 
         public FluentNote Note()
         {
-            return _fluentNote ?? (_fluentNote = new FluentNote(_parent));
+            if (_note == null)
+            {
+                _note = new Note();
+            }
+            return _note.InitFluent(_parent);
         }
 
         public FluentArticle Article()
@@ -32,11 +38,19 @@ namespace ActivityPub.Net.ObjectAndLinkTypes
             return _fluentDocument;
         }
 
-        internal override string GetBuild()
+        public dynamic GetObject()
         {
-            if (_fluentNote!=null) return _fluentNote.GetBuild();
-            if (_fluentArticle != null) return _fluentArticle.GetBuild();
-            if (_fluentDocument != null) return _fluentDocument.GetBuild();
+            if (_note != null) return _note.GetObject();
+            //if (_fluentArticle != null) return _fluentArticle.GetObject();
+            //if (_fluentDocument != null) return _fluentDocument.GetObject();
+            return new ExpandoObject();
+        }
+
+        internal override string GetJsonBuild()
+        {
+            if (_note != null) return _note.GetJsonBuild();
+            if (_fluentArticle != null) return _fluentArticle.GetJsonBuild();
+            if (_fluentDocument != null) return _fluentDocument.GetJsonBuild();
             return String.Empty;
         }
 

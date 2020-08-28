@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Dynamic;
+using System.Runtime.CompilerServices;
 using ActivityPub.Net.ActivityTypes;
 using ActivityPub.Net.ActorTypes;
 using ActivityPub.Net.ObjectAndLinkTypes;
@@ -34,15 +35,15 @@ namespace ActivityPub.Net.CoreTypes
             var buildString = string.Empty;
             if (_actor != null)
             {
-                buildString = _actor.GetBuild();
+                buildString = _actor.GetJsonBuild();
             }
             else if (_objectElement != null)
             {
-                buildString = _objectElement.GetBuild();
+                buildString = _objectElement.GetJsonBuild();
             }
             else if (_activity != null)
             {
-                buildString = _activity.GetBuild();
+                buildString = _activity.GetJsonBuild();
             }
             return buildString;
         }
@@ -51,6 +52,23 @@ namespace ActivityPub.Net.CoreTypes
         //{
         //    return new AdvancedActorActivity(this);
         //}
+        public dynamic GetObject()
+        {
+            if (_actor != null)
+            {
+                return _actor.GetObject();
+            }
+            else if (_objectElement != null)
+            {
+                return _objectElement.GetObject();
+            }
+            else if (_activity != null)
+            {
+                return _activity.GetObject();
+            }
+
+            return new ExpandoObject();
+        }
     }
 
     //public class ActorStream : ActivityStreamsBuilder

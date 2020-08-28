@@ -15,34 +15,34 @@ namespace ActivityPub.Net.CoreTypes
             _activityStream = activityStream;
         }
 
-        public ActivityStreamsObject Id(string id)
-        {
-            return _activityStream;
-        }
+        //public ActivityStreamsObject Id(string id)
+        //{
+        //    return _activityStream;
+        //}
 
-        public ActivityStreamsObject Summary(string summary)
-        {
-            return _activityStream;
-        }
+        //public ActivityStreamsObject Summary(string summary)
+        //{
+        //    return _activityStream;
+        //}
 
-        public ActivityStreamsObject Name(string name)
-        {
-            return _activityStream;
-        }
+        //public ActivityStreamsObject Name(string name)
+        //{
+        //    return _activityStream;
+        //}
 
-        public Attachment Attachment(string attachment)
-        {
-            return new Attachment(_activityStream);
-        }
+        //public Attachment Attachment(string attachment)
+        //{
+        //    return new Attachment(_activityStream);
+        //}
 
         //public virtual ActivityStream End()
         //{
         //    return _activityStream;
         //}
 
-        internal override string GetBuild()
+        internal override string GetJsonBuild()
         {
-            return base.GetBuild();
+            return base.GetJsonBuild();
         }
     }
 }

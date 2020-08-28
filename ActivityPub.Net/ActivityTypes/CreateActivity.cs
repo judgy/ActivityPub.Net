@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Dynamic;
 using ActivityPub.Net.CoreTypes;
 using Newtonsoft.Json;
 
@@ -8,6 +9,7 @@ namespace ActivityPub.Net.ActivityTypes
     {
         private readonly ActivityStream _parent;
         private FluentCreateActivity _fluentCreateActivity;
+        private CreateActivity _createActivity;
 
         public Activity(ActivityStream parent) : base(parent)
         {
@@ -16,20 +18,34 @@ namespace ActivityPub.Net.ActivityTypes
 
         public FluentCreateActivity CreateActivity()
         {
-            return _fluentCreateActivity ?? (_fluentCreateActivity = new FluentCreateActivity(_parent));
+
+            if (_createActivity == null)
+            {
+                _createActivity = new CreateActivity();
+            }
+            return _createActivity.InitFluent(_parent, _createActivity);
+
         }
 
-        internal override string GetBuild()
+        public dynamic GetObject()
+        {
+            return _createActivity;
+        }
+
+        internal override string GetJsonBuild()
         {
             var resultString = "";
-            if (_fluentCreateActivity != null) resultString = _fluentCreateActivity.GetBuild();
+            if (_createActivity != null) resultString = _createActivity.GetJsonBuild();
             return resultString;
         }
 
     }
 
-    public class CreateActivity 
+    public class CreateActivity
     {
+        private FluentCreateActivity _fluentCreateActivity;
+        private ActivityStream _parent;
+
         public CreateActivity()
         {
             Context = "https://www.w3.org/ns/activitystreams";
@@ -47,8 +63,26 @@ namespace ActivityPub.Net.ActivityTypes
         [JsonProperty("actor")]
         public string Actor { get; set; }
         [JsonProperty("object")]
-        public object Object { get; set; }
-        [JsonIgnore]
-        public string InternalObject { get; set; }
+        public dynamic Object { get; set; }
+
+        public string GetJsonBuild()
+        {
+            if (_fluentCreateActivity != null) return _fluentCreateActivity.GetJsonBuild();
+            return "{}";
+        }
+
+        public dynamic GetObject()
+        {
+            if (_fluentCreateActivity != null) return _fluentCreateActivity.GetObject();
+            return new ExpandoObject();
+        }
+
+        internal FluentCreateActivity InitFluent(ActivityStream parent, CreateActivity createActivity)
+        {
+            _parent = parent;
+            _fluentCreateActivity = new FluentCreateActivity(parent, this);
+            return _fluentCreateActivity;
+
+        }
     }
 }

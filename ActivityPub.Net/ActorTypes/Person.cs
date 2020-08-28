@@ -1,4 +1,6 @@
-﻿using ActivityPub.Net.ObjectAndLinkTypes;
+﻿using System.Dynamic;
+using ActivityPub.Net.CoreTypes;
+using ActivityPub.Net.ObjectAndLinkTypes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -6,11 +8,13 @@ namespace ActivityPub.Net.ActorTypes
 {
     public class Person 
     {
+        private ActivityStream _parent;
+        private FluentPerson _fluentPerson;
+
         public Person()
         {
-            Context = "https://www.w3.org/ns/activitystreams";
-            Type = "Person";
         }
+
         [JsonProperty("@context")]
         public string Context { get; set; }
         [JsonProperty("id")]
@@ -33,6 +37,27 @@ namespace ActivityPub.Net.ActorTypes
         public string Following { get; set; }
         [JsonProperty("liked")]
         public string Liked { get; set; }
+
+        public dynamic GetObject()
+        {
+            if (_fluentPerson != null) return _fluentPerson.GetObject();
+            return new ExpandoObject();
+        }
+
+
+        public string GetBuild()
+        {
+            if (_fluentPerson != null) return _fluentPerson.GetJsonBuild();
+            return "{}";
+        }
+
+        internal FluentPerson InitFluent(ActivityStream parent)
+        {
+            _parent = parent;
+            _fluentPerson = new FluentPerson(parent, this);
+            return _fluentPerson;
+        }
+
 
     }
 

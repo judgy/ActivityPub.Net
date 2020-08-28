@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Dynamic;
 using ActivityPub.Net.ActivityTypes;
 using ActivityPub.Net.ObjectAndLinkTypes;
 using Newtonsoft.Json;
@@ -33,7 +34,8 @@ namespace ActivityPub.Net.Unittest
                 "\"followers\": \"https://social.example/alyssa/followers/\"," +
                 "\"following\": \"https://social.example/alyssa/following/\"," +
                 "\"liked\": \"https://social.example/alyssa/liked/\"}";
-            var exampleCompareJson = JsonConvert.DeserializeObject<Dictionary<string, string>>(exampleCompare);
+            dynamic exampleCompareJson = JObject.Parse(exampleCompare);
+            //var exampleCompareJson = JsonConvert.DeserializeObject<Dictionary<string, string>>(exampleCompare);
 
             //Act
             var example1Result = ActivityBuilderDirector.NewActivity
@@ -66,17 +68,17 @@ namespace ActivityPub.Net.Unittest
             //Assert
             dynamic example1ResultJson = JObject.Parse(example1Result);
             //Assert.IsTrue(example1ResultJson.Count == exampleCompareJson.Count);
-            Assert.AreEqual(exampleCompareJson["@context"], (string)example1ResultJson.GetValue("@context"));
-            Assert.AreEqual(exampleCompareJson["type"], (string)example1ResultJson.GetValue("type"));
-            Assert.AreEqual(exampleCompareJson["id"], (string)example1ResultJson["id"]);
-            Assert.AreEqual(exampleCompareJson["name"], (string)example1ResultJson["name"]);
-            Assert.AreEqual(exampleCompareJson["preferredUsername"], (string)example1ResultJson["preferredUsername"]);
-            Assert.AreEqual(exampleCompareJson["summary"], (string)example1ResultJson["summary"]);
-            Assert.AreEqual(exampleCompareJson["inbox"], (string)example1ResultJson["inbox"]);
-            Assert.AreEqual(exampleCompareJson["outbox"], (string)example1ResultJson["outbox"]);
-            Assert.AreEqual(exampleCompareJson["followers"], (string)example1ResultJson["followers"]);
-            Assert.AreEqual(exampleCompareJson["following"], (string)example1ResultJson["following"]);
-            Assert.AreEqual(exampleCompareJson["liked"], (string)example1ResultJson["liked"]);
+            Assert.AreEqual((string)exampleCompareJson.GetValue("@context"), (string)example1ResultJson.GetValue("@context"));
+            Assert.AreEqual((string)exampleCompareJson["type"], (string)example1ResultJson.GetValue("type"));
+            Assert.AreEqual((string)exampleCompareJson["id"], (string)example1ResultJson["id"]);
+            Assert.AreEqual((string)exampleCompareJson["name"], (string)example1ResultJson["name"]);
+            Assert.AreEqual((string)exampleCompareJson["preferredUsername"], (string)example1ResultJson["preferredUsername"]);
+            Assert.AreEqual((string)exampleCompareJson["summary"], (string)example1ResultJson["summary"]);
+            Assert.AreEqual((string)exampleCompareJson["inbox"], (string)example1ResultJson["inbox"]);
+            Assert.AreEqual((string)exampleCompareJson["outbox"], (string)example1ResultJson["outbox"]);
+            Assert.AreEqual((string)exampleCompareJson["followers"], (string)example1ResultJson["followers"]);
+            Assert.AreEqual((string)exampleCompareJson["following"], (string)example1ResultJson["following"]);
+            Assert.AreEqual((string)exampleCompareJson["liked"], (string)example1ResultJson["liked"]);
         }
 
         [Test]
@@ -93,7 +95,8 @@ namespace ActivityPub.Net.Unittest
                 "\"attributedTo\": \"https://social.example/alyssa/\"," +
                 "\"content\": \"Say, did you finish reading that book I lent you?\"}";
 
-            var exampleCompareJson = JsonConvert.DeserializeObject<Note>(exampleCompare);
+            dynamic exampleCompareJson = JObject.Parse(exampleCompare);
+            //var exampleCompareJson = JsonConvert.DeserializeObject<Note>(exampleCompare);
 
             //Act
             var example1Result = ActivityBuilderDirector.NewActivity.ObjectElement()
@@ -104,31 +107,31 @@ namespace ActivityPub.Net.Unittest
                 .Build();
 
             //Assert
-            var example1ResultJson = JsonConvert.DeserializeObject<Note>(example1Result);
-            Assert.AreEqual(exampleCompareJson.Type, example1ResultJson.Type);
-            Assert.AreEqual(exampleCompareJson.AttributedTo, example1ResultJson.AttributedTo);
-            Assert.AreEqual(exampleCompareJson.Content, example1ResultJson.Content);
-            Assert.AreEqual(exampleCompareJson.Context, example1ResultJson.Context);
-            Assert.AreEqual(exampleCompareJson.Id, example1ResultJson.Id);
+            //var example1ResultJson = JsonConvert.DeserializeObject<Note>(example1Result);
+            dynamic example1ResultJson = JObject.Parse(exampleCompare);
+            Assert.AreEqual((string)exampleCompareJson.Type, (string)example1ResultJson.Type);
+            Assert.AreEqual((string)exampleCompareJson.AttributedTo, (string)example1ResultJson.AttributedTo);
+            Assert.AreEqual((string)exampleCompareJson.Content, (string)example1ResultJson.Content);
+            Assert.AreEqual((string)exampleCompareJson.GetValue("@context"), (string)example1ResultJson.GetValue("@context"));
+            Assert.AreEqual((string)exampleCompareJson.Id, (string)example1ResultJson.Id);
         }
 
         [Test]
         public void Example3Test()
         {
             //Arrange
-            var noteCompare = new Note();
+            dynamic noteCompare = new ExpandoObject(); ;
             noteCompare.Context = "";
             noteCompare.Id = "https://social.example/alyssa/posts/49e2d03d-b53a-4c4c-a95c-94a6abf45a19";
             noteCompare.AttributedTo = "https://social.example/alyssa/";
             noteCompare.Content = "Say, did you finish reading that book I lent you?";
-            noteCompare.To.Add("https://chatty.example/ben/");
-            var createActivity = new CreateActivity
-            {
-                Context = "https://www.w3.org/ns/activitystreams",
-                Actor = "https://social.example/alyssa/",
-                Id = "https://social.example/alyssa/posts/a29a6843-9feb-4c74-a7f7-081b9c9201d3"
-            };
-            createActivity.To.Add("https://chatty.example/ben/");
+            noteCompare.To = new string[]{"https://chatty.example/ben/"};
+
+            dynamic createActivity = new ExpandoObject();
+            createActivity.Context = "https://www.w3.org/ns/activitystreams";
+            createActivity.Actor = "https://social.example/alyssa/";
+            createActivity.Id = "https://social.example/alyssa/posts/a29a6843-9feb-4c74-a7f7-081b9c9201d3";
+            createActivity.To = new string[] { "https://chatty.example/ben/" };
             createActivity.Type = "Create";
             createActivity.Object = noteCompare;
             //createActivity.Object = "{" +
@@ -153,13 +156,14 @@ namespace ActivityPub.Net.Unittest
             //        "to": ["https://chatty.example/ben/"],
             //        "content": "Say, did you finish reading that book I lent you?"}
             //}
-            var note = ActivityBuilderDirector.NewActivity.ObjectElement()
-                .Note().To("https://chatty.example/ben/")
+            dynamic note = ActivityBuilderDirector.NewActivity.ObjectElement()
+                .Note()
+                .To("https://chatty.example/ben/")
                 .Id("https://social.example/alyssa/posts/49e2d03d-b53a-4c4c-a95c-94a6abf45a19")
                 .AttributedTo("https://social.example/alyssa/")
-                .To("https://social.example/alyssa/")
                 .Content("Say, did you finish reading that book I lent you?")
-                .GetNote();
+                .EndNote()
+                .GetObject();
 
 
             //Act
@@ -168,8 +172,7 @@ namespace ActivityPub.Net.Unittest
                 .To("https://chatty.example/ben/")
                 .Actor("https://social.example/alyssa/")
                 .Id("https://social.example/alyssa/posts/a29a6843-9feb-4c74-a7f7-081b9c9201d3")
-                .To("https://chatty.example/ben/")
-                .Object(note)
+                .ActivityObject2((JObject)note)
                 .EndCreateActivity()
                 .Build();
 

@@ -16,7 +16,7 @@ namespace ActivityPub.Net
             ActictityStreamBuiler.AppendLine("\"@context\": \"https://www.w3.org/ns/activitystreams\",");
         }
 
-        internal virtual string GetBuild()
+        internal virtual string GetJsonBuild()
         {
             return string.Empty;
             //    ActictityStreamBuiler.Insert(0, "{");
