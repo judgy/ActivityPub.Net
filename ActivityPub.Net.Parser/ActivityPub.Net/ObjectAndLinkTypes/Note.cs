@@ -28,6 +28,10 @@ namespace ActivityPub.Net.ObjectAndLinkTypes
         [JsonProperty("content")]
         public string Content { get; set; }
 
+        [JsonProperty("inReplyTo")]
+        public string InReplyTo { get; set; }
+
+
         internal FluentNote FluentNote()
         {
             return _fluentNote;
